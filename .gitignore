@@ -212,3 +212,4 @@ venv.bak/
 service/ner_analysis_service/pycrf/build
 user_settings.py
 .idea/
+static/

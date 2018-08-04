@@ -4,7 +4,7 @@ from flask import Flask, request, flash, url_for, send_from_directory
 from werkzeug.utils import secure_filename, redirect
 
 UPLOAD_FOLDER = './static/uploaded_movies'
-ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mkv', 'txt'}
+ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mkv'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -14,7 +14,7 @@ app.secret_key = 'secret key'
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    return redirect(url_for('upload_movie'))
 
 
 @app.route('/upload_movie', methods=['GET', 'POST'])
@@ -32,7 +32,7 @@ def upload_movie():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',
+            return redirect(url_for('process_movie',
                                     filename=filename))
     return '''
     <!doctype html>
